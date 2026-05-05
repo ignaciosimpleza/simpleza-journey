@@ -1,6 +1,6 @@
 // api/save.js — POST: upsert del estado y matrix
 // Body: { etapas?: [...], matrix?: {...} }
-import { getDb, setCors, handleOptions, readJsonBody } from "../lib/db.js";
+import { getDb, setCors, handleOptions, readJsonBody, requirePasscode } from "../lib/db.js";
 
 export default async function handler(req, res) {
   if (handleOptions(req, res)) return;
@@ -9,6 +9,7 @@ export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
+  if (requirePasscode(req, res)) return;
 
   try {
     const body = await readJsonBody(req);

@@ -1551,6 +1551,32 @@ function saveToLocalStorage() {
 }
 
 // ============ API CLIENT ============
+const PASSCODE_KEY = "simpleza-edit-passcode";
+function getPasscode() { return localStorage.getItem(PASSCODE_KEY) || ""; }
+function setPasscode(v) { if (v) localStorage.setItem(PASSCODE_KEY, v); else localStorage.removeItem(PASSCODE_KEY); }
+function authHeaders(extra) {
+  const h = Object.assign({}, extra || {});
+  const p = getPasscode();
+  if (p) h["x-passcode"] = p;
+  return h;
+}
+function handleAuthFailure() {
+  setPasscode("");
+  toast("Passcode inválido — pasaste a modo lectura", "warn");
+  if (state.editMode) {
+    state.editMode = false;
+    document.body.classList.remove("edit-mode");
+    const btn = document.getElementById("editToggle");
+    if (btn) {
+      btn.classList.remove("unlocked");
+      const ico = btn.querySelector(".lock-icon");
+      const lbl = document.getElementById("editLabel");
+      if (ico) ico.textContent = "🔒";
+      if (lbl) lbl.textContent = "Lectura";
+    }
+  }
+}
+
 const API = {
   online: false,
   available: null,
@@ -1578,9 +1604,10 @@ const API = {
     try {
       const res = await fetch("/api/save", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: authHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify(payload)
       });
+      if (res.status === 401) { handleAuthFailure(); return false; }
       if (!res.ok) throw new Error("save failed");
       this.online = true;
       updateConnStatus("online");
@@ -1597,9 +1624,10 @@ const API = {
     try {
       const res = await fetch("/api/history", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: authHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify(entry)
       });
+      if (res.status === 401) { handleAuthFailure(); return false; }
       return res.ok;
     } catch { return false; }
   },
@@ -1609,9 +1637,10 @@ const API = {
     try {
       const res = await fetch("/api/snapshots", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: authHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify(snap)
       });
+      if (res.status === 401) { handleAuthFailure(); return false; }
       return res.ok;
     } catch { return false; }
   },
@@ -1619,9 +1648,25 @@ const API = {
   async deleteSnapshot(id) {
     if (!this.available) return false;
     try {
-      const res = await fetch("/api/snapshots?id=" + encodeURIComponent(id), { method: "DELETE" });
+      const res = await fetch("/api/snapshots?id=" + encodeURIComponent(id), {
+        method: "DELETE",
+        headers: authHeaders()
+      });
+      if (res.status === 401) { handleAuthFailure(); return false; }
       return res.ok;
     } catch { return false; }
+  },
+
+  async testPasscode(passcode) {
+    if (!this.available) return true;
+    try {
+      const res = await fetch("/api/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-passcode": passcode },
+        body: "{}"
+      });
+      return res.ok;
+    } catch { return true; }
   }
 };
 
@@ -1655,8 +1700,23 @@ function toast(msg, type) {
 }
 
 // ============ EDIT MODE ============
-function toggleEditMode() {
-  state.editMode = !state.editMode;
+async function toggleEditMode() {
+  const turningOn = !state.editMode;
+  if (turningOn && API.available) {
+    let pass = getPasscode();
+    if (!pass) {
+      pass = (prompt("Passcode para activar edición:") || "").trim();
+      if (!pass) return;
+    }
+    const ok = await API.testPasscode(pass);
+    if (!ok) {
+      setPasscode("");
+      toast("Passcode incorrecto", "warn");
+      return;
+    }
+    setPasscode(pass);
+  }
+  state.editMode = turningOn;
   document.body.classList.toggle("edit-mode", state.editMode);
   const btn = document.getElementById("editToggle");
   const lbl = document.getElementById("editLabel");
