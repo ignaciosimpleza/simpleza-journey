@@ -1,0 +1,16 @@
+{
+  "name": "simpleza-customer-journey",
+  "version": "1.0.0",
+  "description": "Customer Journey diagnostico interactivo de Simpleza con persistencia en Turso",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.14.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
