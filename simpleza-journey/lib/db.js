@@ -14,7 +14,18 @@ export function getDb() {
 export function setCors(res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-passcode");
+}
+
+export function requirePasscode(req, res) {
+  const expected = process.env.EDIT_PASSCODE;
+  if (!expected) return false;
+  const got = req.headers["x-passcode"];
+  if (got !== expected) {
+    res.status(401).json({ error: "Passcode inválido o ausente" });
+    return true;
+  }
+  return false;
 }
 
 export function handleOptions(req, res) {

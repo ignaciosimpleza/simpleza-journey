@@ -1,9 +1,13 @@
 // api/snapshots.js — POST: crea snapshot · DELETE ?id=X: elimina snapshot
-import { getDb, setCors, handleOptions, readJsonBody } from "../lib/db.js";
+import { getDb, setCors, handleOptions, readJsonBody, requirePasscode } from "../lib/db.js";
 
 export default async function handler(req, res) {
   if (handleOptions(req, res)) return;
   setCors(res);
+
+  if (req.method === "POST" || req.method === "DELETE") {
+    if (requirePasscode(req, res)) return;
+  }
 
   try {
     const db = getDb();
