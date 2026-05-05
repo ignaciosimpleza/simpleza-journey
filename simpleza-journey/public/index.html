@@ -1176,6 +1176,150 @@ body:not(.edit-mode) .snap-list .snap-del { display: none; }
 .log-list .log-etapa { color: var(--estado-verde-text); font-weight: 600; }
 .log-empty { color: var(--texto-muted); font-style: italic; padding: 12px 0; font-size: 12px; }
 
+/* ============ MAPA ============ */
+.mapa-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
+.mapa-container {
+  display: grid;
+  grid-template-columns: 160px repeat(6, minmax(170px, 1fr));
+  background: var(--paper);
+  border: 1px solid #E5DFD2;
+  border-radius: 12px;
+  overflow: hidden;
+  min-width: 1080px;
+}
+.mapa-cell-base {
+  padding: 14px 14px;
+  border-bottom: 1px solid #EFE9DC;
+  border-right: 1px solid #EFE9DC;
+  background: var(--paper);
+}
+.mapa-row-label {
+  padding: 14px 14px;
+  border-bottom: 1px solid #EFE9DC;
+  border-right: 1px solid #E5DFD2;
+  background: #FBF7F0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--azul-pizarra);
+  display: flex;
+  align-items: center;
+}
+.mapa-stage-header {
+  padding: 14px 14px;
+  border-bottom: 2px solid var(--verde-menta);
+  border-right: 1px solid #EFE9DC;
+  background: #1B2227;
+  color: #fff;
+}
+.mapa-stage-header:last-child { border-right: none; }
+.mapa-stage-num {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--verde-menta);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.mapa-stage-name {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.mapa-stage-desc {
+  font-size: 11px;
+  color: #B8C5C9;
+  margin-top: 4px;
+  line-height: 1.3;
+}
+.mapa-corner {
+  background: #1B2227;
+  color: #fff;
+  border-bottom: 2px solid var(--verde-menta);
+  border-right: 1px solid #2C3338;
+  padding: 14px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+}
+.mapa-cell {
+  padding: 12px;
+  border-bottom: 1px solid #EFE9DC;
+  border-right: 1px solid #EFE9DC;
+  background: var(--paper);
+  display: flex;
+  flex-direction: column;
+}
+.mapa-cell:last-child { border-right: none; }
+.mapa-row:last-child .mapa-cell, .mapa-row:last-child .mapa-row-label { border-bottom: none; }
+.mapa-cell textarea {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--texto);
+  resize: none;
+  min-height: 70px;
+  outline: none;
+  padding: 0;
+}
+.mapa-cell textarea::placeholder { color: var(--texto-muted); font-style: italic; }
+body.edit-mode .mapa-cell textarea:not([readonly]):focus {
+  background: rgba(50, 232, 169, 0.06);
+  outline: 1px solid var(--verde-menta);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.mapa-cell textarea[readonly] { cursor: not-allowed; }
+.mapa-experience {
+  grid-column: span 6;
+  border-bottom: 1px solid #EFE9DC;
+  background: #FCFAF5;
+  padding: 0;
+  position: relative;
+  min-height: 110px;
+}
+.mapa-experience svg { display: block; width: 100%; height: 110px; }
+.mapa-cell-readonly {
+  font-size: 12px;
+  line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mapa-cuello {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border-left: 3px solid;
+  font-size: 11px;
+  line-height: 1.35;
+  background: #FBF7F0;
+}
+.mapa-cuello-rojo { border-left-color: var(--terracota); background: rgba(205, 97, 85, 0.08); }
+.mapa-cuello-amarillo { border-left-color: var(--amarillo-pastel); background: rgba(247, 220, 111, 0.18); }
+.mapa-cuello-verde { border-left-color: var(--verde-menta); background: rgba(50, 232, 169, 0.08); }
+.mapa-empty { color: var(--texto-muted); font-style: italic; font-size: 11px; }
+.mapa-legend {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 12px;
+  padding: 10px 14px;
+  font-size: 11px;
+  color: var(--azul-pizarra);
+  flex-wrap: wrap;
+}
+.mapa-legend-item { display: flex; align-items: center; gap: 6px; }
+.mapa-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+.mapa-legend-dot.rojo { background: var(--terracota); }
+.mapa-legend-dot.amarillo { background: var(--amarillo-pastel); }
+.mapa-legend-dot.verde { background: var(--verde-menta); }
+
 /* ============ TOAST ============ */
 .toast {
   position: fixed;
@@ -1259,6 +1403,9 @@ body:not(.edit-mode) .snap-list .snap-del { display: none; }
     <button class="nav-item" data-section="evolucion" onclick="switchSection('evolucion')">
       <span class="nav-num">05</span>Evolución
       <span class="nav-counter" id="evolCount">0</span>
+    </button>
+    <button class="nav-item" data-section="mapa" onclick="switchSection('mapa')">
+      <span class="nav-num">06</span>Mapa
     </button>
   </nav>
   <div class="sidebar-footer">
@@ -1403,6 +1550,26 @@ body:not(.edit-mode) .snap-list .snap-del { display: none; }
       </div>
     </section>
 
+    <!-- ============ MAPA ============ -->
+    <section class="section" data-section="mapa">
+      <div class="section-block">
+        <div class="section-head">
+          <span class="section-num">06</span>
+          <h2>Mapa de Customer Journey</h2>
+          <span class="section-sub">Vista horizontal: acciones, touchpoints, experiencia, cuellos y oportunidades</span>
+        </div>
+        <div class="mapa-wrap">
+          <div class="mapa-container" id="mapaContainer"></div>
+        </div>
+        <div class="mapa-legend">
+          <span><strong>Curva de experiencia</strong> — derivada del estado de cada etapa</span>
+          <span class="mapa-legend-item"><span class="mapa-legend-dot rojo"></span>Crítico</span>
+          <span class="mapa-legend-item"><span class="mapa-legend-dot amarillo"></span>Moderado</span>
+          <span class="mapa-legend-item"><span class="mapa-legend-dot verde"></span>Sin cuello</span>
+        </div>
+      </div>
+    </section>
+
   </main>
 </div>
 
@@ -1425,7 +1592,8 @@ const SECTION_TITLES = {
   detalle: "Detalle",
   cuellos: "Cuellos de botella",
   crosssell: "Cross-sell",
-  evolucion: "Evolución"
+  evolucion: "Evolución",
+  mapa: "Mapa"
 };
 
 const INDICADOR_LABELS = {
@@ -1447,7 +1615,10 @@ const ETAPAS_BASE = [
       "No hay sistema de venta del equipo — la consigna existe, el método no.",
       "Top of funnel estimado en 1–3 contactos calificados/mes, sin medir."
     ],
-    comentario: "80% red personal · 18% referidos · 2% otros. Foro genera pocos clientes; lo asumen como posicionamiento sin objetivos. Top of funnel sin medir; estimado bajo. Beto plantea que todo el equipo debería vender — sin desarrollar."
+    comentario: "80% red personal · 18% referidos · 2% otros. Foro genera pocos clientes; lo asumen como posicionamiento sin objetivos. Top of funnel sin medir; estimado bajo. Beto plantea que todo el equipo debería vender — sin desarrollar.",
+    acciones_cliente: "Detecta una necesidad estratégica u operativa. Pregunta a su red. Asiste a un Foro Estratégico o le llega una recomendación.",
+    touchpoints: "Foro Estratégico · Red personal de socios · Referidos de clientes actuales · LinkedIn · Sitio web",
+    oportunidades: "Sistematizar venta del equipo (no solo socios). Definir KPIs del Foro. Activar canal digital con casos y contenido."
   },
   {
     id: "consideracion", num: "02", nombre: "Consideración",
@@ -1459,7 +1630,10 @@ const ETAPAS_BASE = [
       "Tiempo de socios en propuestas custom es alto; doble carga sobre el recurso escaso.",
       "Plantillas existen para varios servicios; falta kit modular para ensamblar boutique más rápido."
     ],
-    comentario: "Reunión exploratoria gratuita hasta detectar necesidad. Días desde primer contacto a propuesta. Demoras: definiciones del cliente o tiempo de los socios. Plantillas en estrategia, gobernanza, GPE; lo boutique se desarrolla custom."
+    comentario: "Reunión exploratoria gratuita hasta detectar necesidad. Días desde primer contacto a propuesta. Demoras: definiciones del cliente o tiempo de los socios. Plantillas en estrategia, gobernanza, GPE; lo boutique se desarrolla custom.",
+    acciones_cliente: "Pide reunión exploratoria. Comparte contexto de su empresa. Evalúa si Simpleza entiende su problema antes de pedir propuesta.",
+    touchpoints: "Reunión exploratoria con socio · Email · Propuesta personalizada (PDF / doc)",
+    oportunidades: "Kit modular de propuestas para acortar tiempo de socios. Reusar y combinar plantillas estratégicas según servicio."
   },
   {
     id: "decision", num: "03", nombre: "Decisión / Contratación",
@@ -1471,7 +1645,10 @@ const ETAPAS_BASE = [
       "Precio generalmente aceptado — el pricing no es el cuello.",
       "Coordinación de agendas cliente↔técnicos enfría el momentum del 'sí'."
     ],
-    comentario: "8 de cada 10 propuestas cierran. Sin regateo significativo. La fricción aparece después del sí: alinear agendas para arrancar puede tomar días o semanas."
+    comentario: "8 de cada 10 propuestas cierran. Sin regateo significativo. La fricción aparece después del sí: alinear agendas para arrancar puede tomar días o semanas.",
+    acciones_cliente: "Acepta propuesta. Firma. Coordina agenda con su equipo y los técnicos de Simpleza para arrancar.",
+    touchpoints: "Email · Llamada · Contrato firmado · Coordinación de agendas",
+    oportunidades: "Onboarding express para no perder momentum del 'sí'. Confirmar fecha de inicio en menos de 7 días."
   },
   {
     id: "onboarding", num: "04", nombre: "Onboarding",
@@ -1483,7 +1660,10 @@ const ETAPAS_BASE = [
       "Alineación de expectativas explícita en arranque — evita sorpresas.",
       "Project lead y equipo definidos al aceptar la propuesta."
     ],
-    comentario: "Cada servicio tiene su propio kickoff formal. Práctica de alineación de expectativas establecida. Sin cuello detectado en esta etapa."
+    comentario: "Cada servicio tiene su propio kickoff formal. Práctica de alineación de expectativas establecida. Sin cuello detectado en esta etapa.",
+    acciones_cliente: "Participa del kickoff. Define interlocutores internos. Entrega inputs iniciales y contexto operativo.",
+    touchpoints: "Kickoff (presencial / virtual) · Acta de alineación · Drive / plataforma compartida",
+    oportunidades: "Estandarizar 'contrato de inputs' por servicio: qué datos, formato, frecuencia, qué pasa si no llegan."
   },
   {
     id: "entrega", num: "05", nombre: "Entrega",
@@ -1495,7 +1675,10 @@ const ETAPAS_BASE = [
       "BI con idas y vueltas por dependencia de inputs del cliente — mitigable con contrato de inputs.",
       "En picos, calidad de vida y plazos son la variable de ajuste — riesgo de pérdida de talento."
     ],
-    comentario: "En general ordenado. BI más volátil. Reajuste activo de expectativas. Cuando se satura el equipo, se sacrifica entrega y vida personal — patrón estructural conectado al cuello de Etapa 1."
+    comentario: "En general ordenado. BI más volátil. Reajuste activo de expectativas. Cuando se satura el equipo, se sacrifica entrega y vida personal — patrón estructural conectado al cuello de Etapa 1.",
+    acciones_cliente: "Recibe entregables. Da feedback. Pide ajustes. En servicios largos, revisa avances mensuales con el líder de unidad.",
+    touchpoints: "Reuniones de avance · Reportes / informes · Tableros BI · WhatsApp con líder de unidad",
+    oportunidades: "Automatizar reporte de avance. Anticipar saturación del equipo con planning trimestral. Ritualizar revisión de NPS."
   },
   {
     id: "retencion", num: "06", nombre: "Retención & Expansión",
@@ -1507,7 +1690,10 @@ const ETAPAS_BASE = [
       "Cross-sell entre unidades pasa por inercia y confianza, no como proceso.",
       "Referidos sub-explotados — 18% sin pedir formalmente, con 80% de cierre y clientes contentos."
     ],
-    comentario: "Hay clientes activos en más de una unidad — son los de años, ganados trabajándolos mucho. No se pide referidos sistemáticamente. Ambición declarada: ser la consultora de confianza que acompaña el crecimiento."
+    comentario: "Hay clientes activos en más de una unidad — son los de años, ganados trabajándolos mucho. No se pide referidos sistemáticamente. Ambición declarada: ser la consultora de confianza que acompaña el crecimiento.",
+    acciones_cliente: "Renueva. Pide otra unidad cuando madura el problema. Recomienda Simpleza a colegas (espontáneamente).",
+    touchpoints: "Reuniones de cierre / continuidad · Encuentros sociales y eventos Simpleza · Foro · Email de seguimiento",
+    oportunidades: "Campaña sistemática de referidos con disparador. Cross-sell en momentos de madurez (cierre, expansión, cambio de management)."
   }
 ];
 
@@ -1732,6 +1918,8 @@ async function toggleEditMode() {
     lbl.textContent = "Lectura";
     toast("Modo lectura · cambios bloqueados");
   }
+  renderEtapas();
+  renderMapa();
 }
 function requireEdit() {
   if (!state.editMode) {
@@ -1777,6 +1965,7 @@ function switchSection(id) {
   closeSidebar();
   if (id === "evolucion") { renderHeatmap(); renderSnapList(); renderLogList(); }
   if (id === "crosssell") { renderNetwork(); }
+  if (id === "mapa") { renderMapa(); }
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 function openSidebar() { document.body.classList.add("sidebar-open"); }
@@ -2305,7 +2494,153 @@ function renderAll() {
   renderHeatmap();
   renderSnapList();
   renderLogList();
+  renderMapa();
   document.getElementById("evolCount").textContent = state.snapshots.length;
+}
+
+// ============ MAPA ============
+const MAPA_FIELDS = [
+  { key: "acciones_cliente", label: "Acciones del cliente" },
+  { key: "touchpoints", label: "Touchpoints" },
+  { key: "oportunidades", label: "Oportunidades" }
+];
+
+function migrateEtapasMapa() {
+  let changed = false;
+  state.etapas.forEach(et => {
+    const base = ETAPAS_BASE.find(b => b.id === et.id);
+    MAPA_FIELDS.forEach(f => {
+      if (et[f.key] === undefined) {
+        et[f.key] = base ? (base[f.key] || "") : "";
+        changed = true;
+      }
+    });
+  });
+  return changed;
+}
+
+function escapeHtml(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+function buildExperienceSVG(etapas) {
+  const w = 1080, h = 110, leftPad = 0, rightPad = 0;
+  const innerW = w - leftPad - rightPad;
+  const yMap = { rojo: 80, amarillo: 55, verde: 30 };
+  const colorMap = { rojo: "#CD6155", amarillo: "#F7DC6F", verde: "#32E8A9" };
+  const points = etapas.map((et, i) => {
+    const estado = et.estado || "amarillo";
+    return {
+      x: leftPad + (i + 0.5) * innerW / etapas.length,
+      y: yMap[estado] != null ? yMap[estado] : 55,
+      color: colorMap[estado] || colorMap.amarillo,
+      estado
+    };
+  });
+  const path = points.map((p, i) => (i === 0 ? "M" : "L") + p.x.toFixed(1) + "," + p.y.toFixed(1)).join(" ");
+  let svg = `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-label="Curva de experiencia">`;
+  ["rojo", "amarillo", "verde"].forEach(k => {
+    svg += `<line x1="0" y1="${yMap[k]}" x2="${w}" y2="${yMap[k]}" stroke="#E5DFD2" stroke-width="0.6" stroke-dasharray="3 4" />`;
+  });
+  svg += `<path d="${path}" fill="none" stroke="#6C868C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />`;
+  points.forEach(p => {
+    svg += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="9" fill="${p.color}" stroke="#fff" stroke-width="2.5" />`;
+  });
+  svg += `</svg>`;
+  return svg;
+}
+
+function cuellosForEtapa(idx) {
+  const needle = "etapa " + (idx + 1);
+  return state.cuellos.filter(c => (c.etapa || "").toLowerCase().includes(needle));
+}
+
+function renderMapa() {
+  const c = document.getElementById("mapaContainer");
+  if (!c) return;
+  const stages = state.etapas;
+  const ro = state.editMode ? "" : "readonly";
+  let html = "";
+
+  html += `<div class="mapa-corner">Etapa</div>`;
+  stages.forEach(et => {
+    html += `<div class="mapa-stage-header">
+      <div class="mapa-stage-num">${escapeHtml(et.num)}</div>
+      <div class="mapa-stage-name">${escapeHtml(et.nombre)}</div>
+      <div class="mapa-stage-desc">${escapeHtml(et.descripcion || "")}</div>
+    </div>`;
+  });
+
+  // Acciones
+  html += `<div class="mapa-row-label">Acciones del cliente</div>`;
+  stages.forEach(et => {
+    html += `<div class="mapa-cell">
+      <textarea ${ro} placeholder="Qué hace el cliente en esta etapa…"
+        oninput="updateMapaField('${et.id}', 'acciones_cliente', this.value)"
+        onclick="if(!state.editMode) toast('Activá modo edición desde el topbar', 'warn')"
+      >${escapeHtml(et.acciones_cliente || "")}</textarea>
+    </div>`;
+  });
+
+  // Touchpoints
+  html += `<div class="mapa-row-label">Touchpoints</div>`;
+  stages.forEach(et => {
+    html += `<div class="mapa-cell">
+      <textarea ${ro} placeholder="Canales / contactos en esta etapa…"
+        oninput="updateMapaField('${et.id}', 'touchpoints', this.value)"
+        onclick="if(!state.editMode) toast('Activá modo edición desde el topbar', 'warn')"
+      >${escapeHtml(et.touchpoints || "")}</textarea>
+    </div>`;
+  });
+
+  // Experiencia
+  html += `<div class="mapa-row-label">Experiencia</div>`;
+  html += `<div class="mapa-experience">${buildExperienceSVG(stages)}</div>`;
+
+  // Cuellos auto
+  html += `<div class="mapa-row-label">Cuellos</div>`;
+  stages.forEach((et, i) => {
+    const matched = cuellosForEtapa(i);
+    html += `<div class="mapa-cell mapa-cell-readonly">${
+      matched.length === 0
+        ? '<span class="mapa-empty">Sin cuellos detectados</span>'
+        : matched.map(cu => `<div class="mapa-cuello mapa-cuello-${escapeHtml(cu.crit)}">${escapeHtml(cu.titulo)}</div>`).join("")
+    }</div>`;
+  });
+
+  // Oportunidades
+  html += `<div class="mapa-row-label">Oportunidades</div>`;
+  stages.forEach(et => {
+    html += `<div class="mapa-cell">
+      <textarea ${ro} placeholder="Qué se podría activar acá…"
+        oninput="updateMapaField('${et.id}', 'oportunidades', this.value)"
+        onclick="if(!state.editMode) toast('Activá modo edición desde el topbar', 'warn')"
+      >${escapeHtml(et.oportunidades || "")}</textarea>
+    </div>`;
+  });
+
+  c.innerHTML = html;
+}
+
+const mapaTimeouts = {};
+function updateMapaField(id, field, val) {
+  if (!state.editMode) return;
+  const et = state.etapas.find(e => e.id === id);
+  if (!et) return;
+  const oldVal = et[field] || "";
+  et[field] = val;
+  saveToLocalStorage();
+  const fieldLabel = (MAPA_FIELDS.find(f => f.key === field) || {}).label || field;
+  const k = id + ":" + field;
+  clearTimeout(mapaTimeouts[k]);
+  mapaTimeouts[k] = setTimeout(() => {
+    if (oldVal !== val) {
+      logEdit(id, et.nombre, field, fieldLabel, "(modificadas)", "(actualizadas)");
+      API.save({ etapas: state.etapas });
+    }
+  }, 4000);
 }
 
 async function init() {
@@ -2338,6 +2673,10 @@ async function init() {
   }
   state.editMode = false;
   document.body.classList.remove("edit-mode");
+  if (migrateEtapasMapa()) {
+    saveToLocalStorage();
+    if (API.available && getPasscode()) API.save({ etapas: state.etapas });
+  }
   renderAll();
 }
 
