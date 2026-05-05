@@ -119,7 +119,7 @@ info "Instalando dependencias del proyecto (npm install)..."
 ( cd "$PROJECT_DIR" && npm install --silent --no-audit --no-fund ) || { err "npm install falló"; exit 1; }
 
 info "Cargando schema.sql en la DB..."
-TURSO_DATABASE_URL="$TURSO_DATABASE_URL" TURSO_AUTH_TOKEN="$TURSO_AUTH_TOKEN" SCHEMA_FILE="$SCHEMA_FILE" \
+( cd "$PROJECT_DIR" && TURSO_DATABASE_URL="$TURSO_DATABASE_URL" TURSO_AUTH_TOKEN="$TURSO_AUTH_TOKEN" SCHEMA_FILE="$SCHEMA_FILE" \
 node --input-type=module -e "
 import { createClient } from '@libsql/client';
 import { readFileSync } from 'fs';
@@ -133,7 +133,7 @@ for (const stmt of stmts) {
   await c.execute(stmt);
 }
 console.log('  → ' + stmts.length + ' statements ejecutados');
-" --experimental-vm-modules 2>&1 | sed 's/^/  /' || { err "Error cargando schema"; exit 1; }
+" --experimental-vm-modules 2>&1 | sed 's/^/  /' ) || { err "Error cargando schema"; exit 1; }
 ok "Schema cargado"
 
 # ----------- Vercel: link, env vars, deploy -----------
