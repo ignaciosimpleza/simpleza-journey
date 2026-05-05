@@ -1180,34 +1180,35 @@ body:not(.edit-mode) .snap-list .snap-del { display: none; }
 .mapa-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
 .mapa-container {
   display: grid;
-  grid-template-columns: 160px repeat(6, minmax(170px, 1fr));
+  grid-template-columns: 130px repeat(6, minmax(120px, 1fr));
   background: var(--paper);
   border: 1px solid #E5DFD2;
   border-radius: 12px;
   overflow: hidden;
-  min-width: 1080px;
+  min-width: 880px;
 }
 .mapa-cell-base {
-  padding: 14px 14px;
+  padding: 10px 10px;
   border-bottom: 1px solid #EFE9DC;
   border-right: 1px solid #EFE9DC;
   background: var(--paper);
 }
 .mapa-row-label {
-  padding: 14px 14px;
+  padding: 12px 10px;
   border-bottom: 1px solid #EFE9DC;
   border-right: 1px solid #E5DFD2;
   background: #FBF7F0;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--azul-pizarra);
   display: flex;
   align-items: center;
+  line-height: 1.25;
 }
 .mapa-stage-header {
-  padding: 14px 14px;
+  padding: 12px 10px;
   border-bottom: 2px solid var(--verde-menta);
   border-right: 1px solid #EFE9DC;
   background: #1B2227;
@@ -1215,21 +1216,21 @@ body:not(.edit-mode) .snap-list .snap-del { display: none; }
 }
 .mapa-stage-header:last-child { border-right: none; }
 .mapa-stage-num {
-  font-size: 10px;
+  font-size: 9px;
   letter-spacing: 0.12em;
   color: var(--verde-menta);
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 .mapa-stage-name {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 1.2;
 }
 .mapa-stage-desc {
-  font-size: 11px;
+  font-size: 10px;
   color: #B8C5C9;
-  margin-top: 4px;
+  margin-top: 3px;
   line-height: 1.3;
 }
 .mapa-corner {
@@ -1237,16 +1238,16 @@ body:not(.edit-mode) .snap-list .snap-del { display: none; }
   color: #fff;
   border-bottom: 2px solid var(--verde-menta);
   border-right: 1px solid #2C3338;
-  padding: 14px 14px;
-  font-size: 11px;
+  padding: 12px 10px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   display: flex;
   align-items: center;
 }
 .mapa-cell {
-  padding: 12px;
+  padding: 10px;
   border-bottom: 1px solid #EFE9DC;
   border-right: 1px solid #EFE9DC;
   background: var(--paper);
@@ -1260,11 +1261,11 @@ body:not(.edit-mode) .snap-list .snap-del { display: none; }
   border: none;
   background: transparent;
   font-family: inherit;
-  font-size: 12px;
-  line-height: 1.5;
+  font-size: 11.5px;
+  line-height: 1.45;
   color: var(--texto);
   resize: none;
-  min-height: 70px;
+  min-height: 64px;
   outline: none;
   padding: 0;
 }
@@ -1282,21 +1283,21 @@ body.edit-mode .mapa-cell textarea:not([readonly]):focus {
   background: #FCFAF5;
   padding: 0;
   position: relative;
-  min-height: 110px;
+  min-height: 90px;
 }
-.mapa-experience svg { display: block; width: 100%; height: 110px; }
+.mapa-experience svg { display: block; width: 100%; height: 90px; }
 .mapa-cell-readonly {
-  font-size: 12px;
+  font-size: 11.5px;
   line-height: 1.4;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
 }
 .mapa-cuello {
-  padding: 6px 8px;
-  border-radius: 6px;
+  padding: 5px 7px;
+  border-radius: 5px;
   border-left: 3px solid;
-  font-size: 11px;
+  font-size: 10.5px;
   line-height: 1.35;
   background: #FBF7F0;
 }
@@ -1319,6 +1320,104 @@ body.edit-mode .mapa-cell textarea:not([readonly]):focus {
 .mapa-legend-dot.rojo { background: var(--terracota); }
 .mapa-legend-dot.amarillo { background: var(--amarillo-pastel); }
 .mapa-legend-dot.verde { background: var(--verde-menta); }
+
+/* ============ GUÍA ============ */
+.guia-intro {
+  background: var(--paper);
+  border: 1px solid #E5DFD2;
+  border-left: 4px solid var(--verde-menta);
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.guia-intro p {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--texto);
+}
+.guia-intro p:last-child {
+  margin-bottom: 0;
+  color: var(--azul-pizarra);
+  font-size: 13px;
+  font-style: italic;
+}
+.guia-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.guia-card {
+  background: var(--paper);
+  border: 1px solid #E5DFD2;
+  border-radius: 10px;
+  padding: 16px 18px;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.guia-card:hover {
+  border-color: var(--verde-menta);
+  transform: translateY(-1px);
+}
+.guia-card-icon {
+  font-size: 22px;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  height: 28px;
+}
+.guia-card h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--texto);
+  letter-spacing: -0.01em;
+}
+.guia-card p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--texto-muted);
+}
+.guia-card p strong { color: var(--texto); }
+.guia-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.guia-dot.rojo { background: var(--terracota); }
+.guia-dot.amarillo { background: var(--amarillo-pastel); }
+.guia-dot.verde { background: var(--verde-menta); }
+.guia-tips {
+  background: #1B2227;
+  color: #fff;
+  border-radius: 10px;
+  padding: 22px 26px;
+  border-left: 4px solid var(--verde-menta);
+}
+.guia-tips h4 {
+  margin: 0 0 14px 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--verde-menta);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.guia-tips ol {
+  margin: 0;
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.guia-tips li {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #D8DCDD;
+}
+.guia-tips li strong { color: #fff; }
 
 /* ============ TOAST ============ */
 .toast {
@@ -1406,6 +1505,9 @@ body.edit-mode .mapa-cell textarea:not([readonly]):focus {
     </button>
     <button class="nav-item" data-section="mapa" onclick="switchSection('mapa')">
       <span class="nav-num">06</span>Mapa
+    </button>
+    <button class="nav-item" data-section="guia" onclick="switchSection('guia')">
+      <span class="nav-num">07</span>Guía
     </button>
   </nav>
   <div class="sidebar-footer">
@@ -1570,6 +1672,81 @@ body.edit-mode .mapa-cell textarea:not([readonly]):focus {
       </div>
     </section>
 
+    <!-- ============ GUÍA ============ -->
+    <section class="section" data-section="guia">
+      <div class="section-block">
+        <div class="section-head">
+          <span class="section-num">07</span>
+          <h2>Cómo leer un Customer Journey</h2>
+          <span class="section-sub">Para que cualquiera del equipo lo use bien · 2 min de lectura</span>
+        </div>
+
+        <div class="guia-intro">
+          <p>El <strong>customer journey</strong> es el recorrido del cliente desde que te conoce hasta que se transforma en relación de largo plazo. Este dashboard mapea cada etapa con su <strong>estado real</strong> (qué funciona, qué no), los <strong>cuellos priorizados</strong>, y dónde hay <strong>margen para mejorar</strong>.</p>
+          <p>No es una herramienta de venta — es de diagnóstico. La regla: si todo está verde, no estás midiendo bien.</p>
+        </div>
+
+        <div class="guia-grid">
+          <div class="guia-card">
+            <div class="guia-card-icon"><span class="guia-dot rojo"></span><span class="guia-dot amarillo"></span><span class="guia-dot verde"></span></div>
+            <h4>Estados semáforo</h4>
+            <p><strong>Rojo</strong> = cuello que duele · <strong>Amarillo</strong> = hay margen, no urgente · <strong>Verde</strong> = funciona. Cada etapa tiene un estado consolidado y 4 indicadores: tiempo, conversión, fricción, satisfacción.</p>
+          </div>
+
+          <div class="guia-card">
+            <div class="guia-card-icon">📊</div>
+            <h4>Vista — el pipeline de un vistazo</h4>
+            <p>Foto rápida del journey con mini-radares por etapa. Tap en cualquier etapa para zoomear al detalle. Útil para arrancar reuniones y poner foco.</p>
+          </div>
+
+          <div class="guia-card">
+            <div class="guia-card-icon">🔍</div>
+            <h4>Detalle — zoom por etapa</h4>
+            <p>Hallazgos concretos, indicadores semáforo y notas de campo editables. Es donde se discute el "por qué" detrás del color.</p>
+          </div>
+
+          <div class="guia-card">
+            <div class="guia-card-icon">⚠️</div>
+            <h4>Cuellos — qué tocar primero</h4>
+            <p>Lista priorizada por impacto (no por etapa). Los rojos son los que mueven la aguja del negocio si se resuelven. Los amarillos son palancas dormidas.</p>
+          </div>
+
+          <div class="guia-card">
+            <div class="guia-card-icon">🕸️</div>
+            <h4>Cross-sell — la red entre unidades</h4>
+            <p>Marca qué unidades de Simpleza comparten cliente. Cuanto más tupida la red, más maduro el portfolio. La densidad es un proxy de retención y expansión real.</p>
+          </div>
+
+          <div class="guia-card">
+            <div class="guia-card-icon">📅</div>
+            <h4>Evolución — comparar en el tiempo</h4>
+            <p>Snapshots fechados del diagnóstico. Sirve para chequear "qué cambió desde el último sprint" sin discutir percepciones — los datos están guardados.</p>
+          </div>
+
+          <div class="guia-card">
+            <div class="guia-card-icon">🗺️</div>
+            <h4>Mapa — vista horizontal</h4>
+            <p>Customer journey map clásico: por etapa, qué hace el cliente, en qué touchpoints, cómo se siente, qué cuellos hay y qué oportunidades. Pensado para presentar al cliente o usar en talleres.</p>
+          </div>
+
+          <div class="guia-card">
+            <div class="guia-card-icon">✏️</div>
+            <h4>Modo edición</h4>
+            <p>Por defecto el dashboard está en lectura. Tocá el candado en el topbar y meté el passcode del equipo para activar edición. Cada cambio queda registrado con fecha y autor en Evolución.</p>
+          </div>
+        </div>
+
+        <div class="guia-tips">
+          <h4>3 reglas para que esto sea útil</h4>
+          <ol>
+            <li><strong>Actualizá después de cada cambio relevante</strong> — un cliente nuevo, un proceso que se rompe, una unidad que se activa. Un mes sin tocarlo y ya no representa la realidad.</li>
+            <li><strong>Tomá un snapshot antes de cualquier cambio grande</strong> — campañas, contrataciones, lanzamientos. Te permite medir el "antes/después" sin discusión.</li>
+            <li><strong>No metas todo en rojo</strong>. Si todo es crítico, nada es prioritario. Forzá la priorización: ¿qué cuello, si lo soltás hoy, mueve más el negocio?</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
   </main>
 </div>
 
@@ -1593,7 +1770,8 @@ const SECTION_TITLES = {
   cuellos: "Cuellos de botella",
   crosssell: "Cross-sell",
   evolucion: "Evolución",
-  mapa: "Mapa"
+  mapa: "Mapa",
+  guia: "Guía"
 };
 
 const INDICADOR_LABELS = {
@@ -2526,9 +2704,9 @@ function escapeHtml(s) {
 }
 
 function buildExperienceSVG(etapas) {
-  const w = 1080, h = 110, leftPad = 0, rightPad = 0;
+  const w = 1080, h = 90, leftPad = 0, rightPad = 0;
   const innerW = w - leftPad - rightPad;
-  const yMap = { rojo: 80, amarillo: 55, verde: 30 };
+  const yMap = { rojo: 68, amarillo: 45, verde: 22 };
   const colorMap = { rojo: "#CD6155", amarillo: "#F7DC6F", verde: "#32E8A9" };
   const points = etapas.map((et, i) => {
     const estado = et.estado || "amarillo";
