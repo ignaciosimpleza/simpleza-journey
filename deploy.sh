@@ -34,7 +34,7 @@ trap cleanup_tmp EXIT
 
 # ----------- Preflight -----------
 hr
-echo "${BOLD}Simpleza Customer Journey — Deploy Turso + Vercel${NC}"
+printf "${BOLD}Simpleza Customer Journey — Deploy Turso + Vercel${NC}\n"
 hr
 
 [ -d "$PROJECT_DIR" ] || { err "No encontré $PROJECT_DIR. Ejecutá desde la raíz del repo clonado."; exit 1; }
@@ -70,12 +70,12 @@ turso_api() {
   TMP_OUT="$(mktemp)"
   local code
   if [ -n "$body" ]; then
-    code=$(curl -sS -o "$TMP_OUT" -w "%{http_code}" -X "$method" \
+    code=$(curl --ssl-no-revoke -sS -o "$TMP_OUT" -w "%{http_code}" -X "$method" \
       -H "Authorization: Bearer $TURSO_API_TOKEN" \
       -H "Content-Type: application/json" \
       -d "$body" "$TURSO_API$path")
   else
-    code=$(curl -sS -o "$TMP_OUT" -w "%{http_code}" -X "$method" \
+    code=$(curl --ssl-no-revoke -sS -o "$TMP_OUT" -w "%{http_code}" -X "$method" \
       -H "Authorization: Bearer $TURSO_API_TOKEN" "$TURSO_API$path")
   fi
   cat "$TMP_OUT"
@@ -163,11 +163,11 @@ PROD_URL=$(echo "$DEPLOY_OUT" | grep -Eo 'https://[a-zA-Z0-9.-]+\.vercel\.app' |
 
 hr
 ok "Deploy completado"
-[ -n "$PROD_URL" ] && echo "  URL producción: ${BOLD}${PROD_URL}${NC}"
+[ -n "$PROD_URL" ] && printf "  URL producción: ${BOLD}%s${NC}\n" "$PROD_URL"
 hr
-echo "${BOLD}Smoke test:${NC}"
+printf "${BOLD}Smoke test:${NC}\n"
 if [ -n "$PROD_URL" ]; then
-  CODE=$(curl -sS -o /dev/null -w "%{http_code}" "$PROD_URL/api/load")
+  CODE=$(curl --ssl-no-revoke -sS -o /dev/null -w "%{http_code}" "$PROD_URL/api/load")
   if [ "$CODE" = "200" ]; then
     ok "GET /api/load → 200 ✅"
   else
@@ -175,7 +175,7 @@ if [ -n "$PROD_URL" ]; then
   fi
 fi
 hr
-echo "${BOLD}Próximos pasos:${NC}"
+printf "${BOLD}Próximos pasos:${NC}\n"
 echo "  1. Abrí $PROD_URL — verificá que el dot del sidebar quede 🟢 'Conectado'."
 echo "  2. Activá modo edición, cambiá un estado, refrescá: debe persistir."
 echo "  3. ${YELLOW}Rotá los tokens de Turso y Vercel${NC} (los que pegaste antes en chat)."
